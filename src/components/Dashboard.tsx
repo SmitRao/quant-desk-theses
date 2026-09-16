@@ -5,6 +5,7 @@ import RankedBook from './RankedBook'
 import ThesisCard from './ThesisCard'
 import Disclaimer from './Disclaimer'
 import DateSelector from './DateSelector'
+import TipJar from './TipJar'
 
 interface Props {
   data: DayData
@@ -56,8 +57,13 @@ export default function Dashboard({ data, currentDate, availableDates }: Props) 
       </main>
       
       {/* Footer */}
-      <footer className="p-4 text-center text-dim text-xs border-t border-[#222] mt-4">
-        Agentic Trading Desk Dashboard — Draft Version — Not For Distribution
+      <footer className="p-4 border-t border-[#222] mt-4">
+        <div className="flex items-center justify-between max-w-[1600px] mx-auto">
+          <span className="text-dim text-xs">
+            Agentic Trading Desk Dashboard — Draft Version — Not For Distribution
+          </span>
+          <TipJar />
+        </div>
       </footer>
     </div>
   )

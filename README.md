@@ -92,9 +92,15 @@ Open [http://localhost:3000](http://localhost:3000)
 
 The app will build and deploy. Free tier services spin down after 15 minutes of inactivity (first request after idle takes ~30s to wake).
 
-### Environment Variables (Optional)
+### Environment Variables
 
-No environment variables are required for basic operation.
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `NEXT_PUBLIC_TIP_URL` | No | Tip jar / support link URL. If empty or missing, shows disabled "Tip jar coming soon" placeholder. |
+
+Set in Render: Dashboard → Your Service → Environment → Add Environment Variable
+
+**IMPORTANT**: The real tip URL must come from Smit/Bossman and be reviewed in the PR Editor FINAL before go-live. Do not invent placeholder payment links.
 
 ## Privacy & Compliance
 
@@ -102,6 +108,17 @@ No environment variables are required for basic operation.
 - **No real names**: Only seat/role names (e.g., "Forward Thesis Quant")
 - **No PII**: No personal email, phone, or addresses in UI or data
 - **Disclaimer**: Visible disclaimer that this is not investment advice
+- **Tip jar**: Soft desk-branded CTA only; no personal identity; URL from env var only
+
+## Go-Live Checklist
+
+Before removing DRAFT/noindex status:
+
+- [ ] Real tip URL provided by Smit/Bossman
+- [ ] PR Editor FINAL review completed
+- [ ] Remove `robots: noindex, nofollow` from layout.tsx metadata
+- [ ] Update robots.txt to allow indexing
+- [ ] Remove DRAFT banner or change to production mode
 
 ## Tech Stack
 
