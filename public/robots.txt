@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /
+
+# DRAFT MODE - Not for public indexing
+# Remove this file or update rules before go-live

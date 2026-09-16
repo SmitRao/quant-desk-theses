@@ -1,0 +1,77 @@
+{
+  "date": "2026-09-16",
+  "desk_status": "IN_RISK",
+  "nav": null,
+  "cash": null,
+  "ranked_book": [
+    {
+      "rank": 1,
+      "ticket": "NVDA",
+      "max_loss": "$300",
+      "note": "Primary thesis — earnings drift continuation"
+    },
+    {
+      "rank": 2,
+      "ticket": "SPY",
+      "max_loss": "$150",
+      "note": "Hedge overlay — gamma scalp"
+    }
+  ],
+  "theses": [
+    {
+      "author": "Forward Thesis Quant",
+      "title": "NVDA Post-Earnings Drift Continuation",
+      "thesis": "NVDA showing textbook post-earnings announcement drift pattern. Strong beat followed by 3-day consolidation near highs suggests institutional accumulation before next leg higher.",
+      "support_statements": [
+        "Historical PEAD studies show 60%+ win rate for drift continuation after 2%+ beat on both revenue and EPS",
+        "Dark pool prints consistently hitting at ask price during consolidation — suggests buyers absorbing supply",
+        "Options flow shows aggressive call buying in 2-week expiry, dealers likely short gamma",
+        "AI capex cycle commentary from management exceeded Street expectations",
+        "What would make us wrong: Break below $118 consolidation low invalidates accumulation thesis"
+      ],
+      "levels": {
+        "entry": "$121.50",
+        "invalidation": "$118.00",
+        "targets": ["$128.00", "$132.00"]
+      },
+      "ranked_ticket": "NVDA",
+      "max_loss": "$300"
+    },
+    {
+      "author": "Edge Lab Quant",
+      "title": "SPY Gamma Scalp — Dealer Positioning Play",
+      "thesis": "Dealer gamma positioning flipped short after yesterday's rally. This creates conditions for amplified moves in either direction. We position for mean reversion with tight stops.",
+      "support_statements": [
+        "GEX flipped negative for first time in 8 sessions — historically leads to 1.5x intraday range expansion",
+        "0DTE put volume spiked 40% suggesting retail hedging creates pin risk at round numbers",
+        "VIX term structure normalized post-FOMC — reduces tail risk on short gamma exposure",
+        "What would make us wrong: Sustained move above SPY 458 on volume invalidates mean reversion setup"
+      ],
+      "levels": {
+        "entry": "$455.20",
+        "invalidation": "$458.00",
+        "targets": ["$452.00", "$450.00"]
+      },
+      "ranked_ticket": "SPY",
+      "max_loss": "$150"
+    },
+    {
+      "author": "Quant Research",
+      "title": "Sector Rotation Signal — Watching Only",
+      "thesis": "Our factor model detects early rotation signal from growth to value. Not actionable today but worth monitoring for potential XLF long if signal strengthens.",
+      "support_statements": [
+        "Growth/value ratio broke 20-day moving average for first time since July",
+        "Bank earnings next week could catalyze value rotation if NIM outlook improves",
+        "Signal strength at 0.6 vs our 0.75 threshold for action — watching not acting",
+        "Historical backtest shows 2-3 day lead time before optimal entry on rotation trades"
+      ],
+      "levels": {
+        "entry": "Watching — not active",
+        "invalidation": "N/A",
+        "targets": []
+      },
+      "ranked_ticket": "NONE",
+      "max_loss": "N/A"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "date": "2026-09-15",
+  "desk_status": "FLAT",
+  "nav": null,
+  "cash": null,
+  "ranked_book": [],
+  "theses": [
+    {
+      "author": "Forward Thesis Quant",
+      "title": "No Actionable Setup Today",
+      "thesis": "Market structure remains unclear ahead of FOMC. We prefer to stay flat and preserve capital rather than force a trade with unfavorable risk/reward.",
+      "support_statements": [
+        "FOMC meeting tomorrow creates binary event risk that obscures near-term directional signals",
+        "Implied volatility elevated across major indices, pricing in significant move",
+        "Our edge models show neutral readings with no clear directional bias",
+        "Capital preservation is the priority when conviction is low"
+      ],
+      "levels": {
+        "entry": "N/A",
+        "invalidation": "N/A",
+        "targets": []
+      },
+      "ranked_ticket": "NONE",
+      "max_loss": "N/A"
+    },
+    {
+      "author": "Edge Lab Quant",
+      "title": "Vol Surface Dislocations Insufficient",
+      "thesis": "While we observe some term structure steepening in SPX options, the magnitude does not justify deploying capital given current margin requirements and decay characteristics.",
+      "support_statements": [
+        "25-delta put skew only 2 points above 30-day average — not extreme enough",
+        "Front-month/back-month vol spread at 1.8 points vs our 2.5+ threshold for action",
+        "Gamma exposure would require 3-day holding period minimum",
+        "Better setups likely post-FOMC when vol normalizes"
+      ],
+      "levels": {
+        "entry": "N/A",
+        "invalidation": "N/A",
+        "targets": []
+      },
+      "ranked_ticket": "NONE",
+      "max_loss": "N/A"
+    }
+  ]
+}
