@@ -19,6 +19,8 @@ export interface Thesis {
   levels: ThesisLevels
   ranked_ticket: string
   max_loss: string
+  sample_ui_only?: boolean
+  executable?: boolean
 }
 
 export interface DayData {

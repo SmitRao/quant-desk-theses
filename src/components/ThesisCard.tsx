@@ -7,9 +7,19 @@ interface Props {
 export default function ThesisCard({ thesis }: Props) {
   const hasPosition = thesis.ranked_ticket !== 'NONE'
   const isLong = hasPosition && thesis.levels.targets.length > 0
+  const isSampleOnly = thesis.sample_ui_only === true
   
   return (
-    <div className="panel p-4 flex flex-col h-full">
+    <div className={`panel p-4 flex flex-col h-full ${isSampleOnly ? 'border-dashed border-[#333]' : ''}`}>
+      {/* Sample badge */}
+      {isSampleOnly && (
+        <div className="mb-2 -mt-1">
+          <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-[#1a1a00] text-yellow-600 border border-yellow-900">
+            Sample UI Only — Not a Live Rank
+          </span>
+        </div>
+      )}
+      
       {/* Header */}
       <div className="flex items-start justify-between gap-2 mb-3 pb-3 border-b border-[#222]">
         <div className="flex-1">

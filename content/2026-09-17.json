@@ -1,0 +1,29 @@
+{
+  "date": "2026-09-17",
+  "desk_status": "FLAT",
+  "nav": null,
+  "cash": null,
+  "ranked_book": [],
+  "theses": [
+    {
+      "author": "Quant Research",
+      "title": "Post-FOMC Cash Position — SAMPLE UI ONLY",
+      "thesis": "Fed hiked 25bp; Warsh sounded hawkish; stocks soft, volatility still calm. After a widely expected rate hike and a hawkish press conference, the easy move already happened in the afternoon selloff. No liquid long-premium idea clears our edge bar today, so the book stays cash.",
+      "support_statements": [
+        "Cheap short-dated puts look tempting but behave like lottery tickets when volatility is still low",
+        "No defined-risk setup meets our edge threshold after the afternoon selloff priced in the hawkish tone",
+        "Preserving capital for higher-conviction opportunities is the correct risk management posture",
+        "Re-open only if volatility clearly rebuilds or a named catalyst shows a defined-risk ticket under $200 with a clean kill line"
+      ],
+      "levels": {
+        "entry": "N/A — staying flat",
+        "invalidation": "Re-open if vol rebuilds or clean <$200 setup emerges",
+        "targets": []
+      },
+      "ranked_ticket": "NONE",
+      "max_loss": "$0 (flat)",
+      "sample_ui_only": true,
+      "executable": false
+    }
+  ]
+}
