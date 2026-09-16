@@ -15,7 +15,7 @@ export default function DateSelector({ dates, currentDate }: Props) {
     if (date === dates[0]) {
       router.push('/')
     } else {
-      router.push(`/day/${date}`)
+      router.push(`/day/${date}/`)
     }
   }
   

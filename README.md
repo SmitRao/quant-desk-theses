@@ -71,26 +71,34 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000)
 
-## Deploy to Render (Free Tier)
+## Deploy to GitHub Pages (Free)
 
-1. Push this repo to GitHub
+**Live URL**: https://smitrao.github.io/quant-desk-theses/
 
-2. Go to [render.com](https://render.com) and sign up/log in
+### Automatic Deployment
 
-3. Click **New** → **Web Service**
+On every push to `main`, GitHub Actions will:
+1. Build the static export (`npm run build` → `out/` directory)
+2. Deploy to GitHub Pages
 
-4. Connect your GitHub repo
+### First-Time Setup
 
-5. Configure:
-   - **Name**: `quant-desk-theses` (or your preference)
-   - **Runtime**: Node
-   - **Build Command**: `npm install && npm run build`
-   - **Start Command**: `npm run start`
-   - **Instance Type**: Free
+1. Go to repo **Settings** → **Pages**
+2. Under "Build and deployment", select **Source: GitHub Actions**
+3. Push to main (or manually trigger the workflow)
 
-6. Click **Deploy Web Service**
+### Private Repo Note
 
-The app will build and deploy. Free tier services spin down after 15 minutes of inactivity (first request after idle takes ~30s to wake).
+GitHub Pages for **private repos requires GitHub Pro/Team/Enterprise**. If Pages won't publish:
+- The repo must be made **public** (dashboard is PUBLIC greenlit)
+- Or upgrade to GitHub Pro
+
+### Alternative: Render (if needed)
+
+If you need server-side features later:
+- **Build Command**: `npm install && npm run build`
+- **Start Command**: `npm run start`
+- Remove `output: 'export'` from next.config.js and revert to `output: 'standalone'`
 
 ### Environment Variables
 
@@ -98,7 +106,8 @@ The app will build and deploy. Free tier services spin down after 15 minutes of 
 |----------|----------|-------------|
 | `NEXT_PUBLIC_TIP_URL` | No | Stripe Payment Link URL for tip jar. If empty or missing, shows disabled "Tip jar coming soon" placeholder. |
 
-Set in Render: Dashboard → Your Service → Environment → Add Environment Variable
+**For GitHub Pages**: Set as a repository secret, then reference in the workflow (requires workflow update).  
+**For Render**: Dashboard → Your Service → Environment → Add Environment Variable
 
 **IMPORTANT — Tip Jar (Stripe Payment Link)**:
 - Platform: **Stripe Payment Link only** (not Buy Me a Coffee or other platforms)
