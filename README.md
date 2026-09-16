@@ -96,11 +96,15 @@ The app will build and deploy. Free tier services spin down after 15 minutes of 
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `NEXT_PUBLIC_TIP_URL` | No | Tip jar / support link URL. If empty or missing, shows disabled "Tip jar coming soon" placeholder. |
+| `NEXT_PUBLIC_TIP_URL` | No | Stripe Payment Link URL for tip jar. If empty or missing, shows disabled "Tip jar coming soon" placeholder. |
 
 Set in Render: Dashboard → Your Service → Environment → Add Environment Variable
 
-**IMPORTANT**: The real tip URL must come from Smit/Bossman and be reviewed in the PR Editor FINAL before go-live. Do not invent placeholder payment links.
+**IMPORTANT — Tip Jar (Stripe Payment Link)**:
+- Platform: **Stripe Payment Link only** (not Buy Me a Coffee or other platforms)
+- The real Stripe Payment Link URL + public brand name must come from Smit/Bossman
+- Must be reviewed in PR Editor FINAL before go-live
+- Do NOT invent or hardcode any buy.stripe.com or payment link URLs
 
 ## Privacy & Compliance
 
@@ -114,8 +118,10 @@ Set in Render: Dashboard → Your Service → Environment → Add Environment Va
 
 Before removing DRAFT/noindex status:
 
-- [ ] Real tip URL provided by Smit/Bossman
+- [ ] Real Stripe Payment Link URL provided by Smit/Bossman
+- [ ] Public brand name for tip jar confirmed by Smit/Bossman
 - [ ] PR Editor FINAL review completed
+- [ ] Set `NEXT_PUBLIC_TIP_URL` env var in Render
 - [ ] Remove `robots: noindex, nofollow` from layout.tsx metadata
 - [ ] Update robots.txt to allow indexing
 - [ ] Remove DRAFT banner or change to production mode
