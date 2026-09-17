@@ -21,11 +21,11 @@ export default function DateSelector({ dates, currentDate }: Props) {
   
   return (
     <div className="flex items-center gap-2">
-      <span className="text-dim text-xs uppercase tracking-wider">View Date:</span>
+      <span className="text-dim text-[10px] sm:text-xs uppercase tracking-wider">View Date:</span>
       <select 
         value={currentDate}
         onChange={handleChange}
-        className="bg-[#111] border border-[#333] rounded px-2 py-1 text-sm font-mono text-white focus:outline-none focus:border-[#555]"
+        className="bg-[#111] border border-[#333] rounded px-2 py-1 text-xs sm:text-sm font-mono text-white focus:outline-none focus:border-[#555] min-h-[36px]"
       >
         {dates.map(date => (
           <option key={date} value={date}>{date}</option>

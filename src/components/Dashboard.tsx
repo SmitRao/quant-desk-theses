@@ -18,10 +18,10 @@ export default function Dashboard({ data, currentDate, availableDates }: Props) 
     <div className="min-h-screen flex flex-col">
       <DraftBanner />
       
-      <main className="flex-1 p-4 max-w-[1600px] mx-auto w-full">
+      <main className="flex-1 p-3 sm:p-4 max-w-[1600px] mx-auto w-full">
         {/* Header row */}
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-lg font-bold text-white tracking-wider">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+          <h1 className="text-base sm:text-lg font-bold text-white tracking-wider">
             QUANT DESK THESES
           </h1>
           <DateSelector dates={availableDates} currentDate={currentDate} />
@@ -41,7 +41,7 @@ export default function Dashboard({ data, currentDate, availableDates }: Props) 
           <div className="lg:col-span-2">
             <div className="panel p-4">
               <h2 className="text-dim text-xs uppercase tracking-wider mb-3 border-b border-[#222] pb-2">
-                Quant Seat Theses
+                Quant Desk Theses
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -57,12 +57,14 @@ export default function Dashboard({ data, currentDate, availableDates }: Props) 
       </main>
       
       {/* Footer */}
-      <footer className="p-4 border-t border-[#222] mt-4">
-        <div className="flex items-center justify-between max-w-[1600px] mx-auto">
-          <span className="text-dim text-xs">
+      <footer className="p-3 sm:p-4 border-t border-[#222] mt-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 max-w-[1600px] mx-auto">
+          <span className="text-dim text-xs text-center sm:text-left">
             Agentic Trading Desk Dashboard — Draft Version — Not For Distribution
           </span>
-          <TipJar />
+          <div className="flex justify-center sm:justify-end">
+            <TipJar />
+          </div>
         </div>
       </footer>
     </div>

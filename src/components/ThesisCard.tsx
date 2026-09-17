@@ -10,11 +10,11 @@ export default function ThesisCard({ thesis }: Props) {
   const isSampleOnly = thesis.sample_ui_only === true
   
   return (
-    <div className={`panel p-4 flex flex-col h-full ${isSampleOnly ? 'border-dashed border-[#333]' : ''}`}>
+    <div className={`panel p-3 sm:p-4 flex flex-col h-full ${isSampleOnly ? 'border-dashed border-[#333]' : ''}`}>
       {/* Sample badge */}
       {isSampleOnly && (
         <div className="mb-2 -mt-1">
-          <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-[#1a1a00] text-yellow-600 border border-yellow-900">
+          <span className="text-[9px] sm:text-[10px] uppercase tracking-wider px-1.5 sm:px-2 py-0.5 rounded bg-[#1a1a00] text-yellow-600 border border-yellow-900">
             Sample UI Only — Not a Live Rank
           </span>
         </div>
@@ -69,27 +69,27 @@ export default function ThesisCard({ thesis }: Props) {
       {/* Levels */}
       {hasPosition && (
         <div className="border-t border-[#222] pt-3 mt-auto">
-          <div className="grid grid-cols-3 gap-3 text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 text-xs">
             <div>
-              <div className="text-dim uppercase tracking-wider mb-1">Entry</div>
-              <div className="font-mono text-white">{thesis.levels.entry}</div>
+              <div className="text-dim uppercase tracking-wider mb-1 text-[10px] sm:text-xs">Entry</div>
+              <div className="font-mono text-white text-xs sm:text-sm">{thesis.levels.entry}</div>
             </div>
             <div>
-              <div className="text-dim uppercase tracking-wider mb-1">Invalidation</div>
-              <div className="font-mono text-red">{thesis.levels.invalidation}</div>
+              <div className="text-dim uppercase tracking-wider mb-1 text-[10px] sm:text-xs">Invalidation</div>
+              <div className="font-mono text-red text-xs sm:text-sm">{thesis.levels.invalidation}</div>
             </div>
-            <div>
-              <div className="text-dim uppercase tracking-wider mb-1">Max Loss</div>
-              <div className="font-mono text-red">{thesis.max_loss}</div>
+            <div className="col-span-2 sm:col-span-1">
+              <div className="text-dim uppercase tracking-wider mb-1 text-[10px] sm:text-xs">Max Loss</div>
+              <div className="font-mono text-red text-xs sm:text-sm">{thesis.max_loss}</div>
             </div>
           </div>
           
           {thesis.levels.targets.length > 0 && (
             <div className="mt-3">
-              <div className="text-dim text-xs uppercase tracking-wider mb-1">Targets</div>
-              <div className="flex gap-2">
+              <div className="text-dim text-[10px] sm:text-xs uppercase tracking-wider mb-1">Targets</div>
+              <div className="flex flex-wrap gap-1 sm:gap-2">
                 {thesis.levels.targets.map((target, idx) => (
-                  <span key={idx} className="font-mono text-green text-xs px-2 py-1 bg-[#0a1a0a] rounded border border-[#1a3a1a]">
+                  <span key={idx} className="font-mono text-green text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 bg-[#0a1a0a] rounded border border-[#1a3a1a]">
                     T{idx + 1}: {target}
                   </span>
                 ))}
