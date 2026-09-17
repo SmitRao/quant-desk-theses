@@ -45,21 +45,21 @@ export default function ThesisCard({ thesis }: Props) {
       </div>
       
       {/* Thesis */}
-      <div className="mb-4">
-        <p className="text-sm text-[#c0c0c0] leading-relaxed">
+      <div className="mb-3 sm:mb-4">
+        <p className="text-[13px] sm:text-sm text-[#c0c0c0] leading-relaxed">
           {thesis.thesis}
         </p>
       </div>
       
       {/* Support Statements */}
       <div className="mb-4 flex-1">
-        <div className="text-dim text-xs uppercase tracking-wider mb-2">
+        <div className="text-dim text-[10px] sm:text-xs uppercase tracking-wider mb-2">
           Support / Reasoning
         </div>
-        <ul className="space-y-2">
+        <ul className="space-y-1.5 sm:space-y-2">
           {thesis.support_statements.map((statement, idx) => (
-            <li key={idx} className="text-xs text-[#a0a0a0] leading-relaxed flex gap-2">
-              <span className="text-dim shrink-0">•</span>
+            <li key={idx} className="text-[11px] sm:text-xs text-[#a0a0a0] leading-relaxed pl-3 relative">
+              <span className="absolute left-0 text-dim">•</span>
               <span>{statement}</span>
             </li>
           ))}
