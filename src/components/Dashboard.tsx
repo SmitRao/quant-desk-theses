@@ -9,6 +9,7 @@ import TipJar from './TipJar'
 import Panel from './ui/Panel'
 import SectionHeader from './ui/SectionHeader'
 import InView from './motion/InView'
+import { cx } from '@/lib/cx'
 
 interface Props {
   data: DayData
@@ -16,8 +17,19 @@ interface Props {
   availableDates: string[]
 }
 
+/**
+ * Column counts are written out in full so Tailwind's scanner can see them.
+ * A single thesis gets the wide card treatment instead of a stranded column.
+ */
+function thesisGridColumns(count: number): string {
+  if (count <= 1) return ''
+  if (count === 2) return 'md:grid-cols-2'
+  return 'md:grid-cols-2 xl:grid-cols-3'
+}
+
 export default function Dashboard({ data, currentDate, availableDates }: Props) {
   const thesisCount = data.theses.length
+  const isSoloThesis = thesisCount === 1
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -51,10 +63,18 @@ export default function Dashboard({ data, currentDate, availableDates }: Props) 
               }
             />
 
-            <div className="grid gap-4 p-4 sm:p-6 md:grid-cols-2 xl:grid-cols-3">
+            <div
+              className={cx(
+                'grid gap-4 p-4 sm:p-6',
+                thesisGridColumns(thesisCount)
+              )}
+            >
               {data.theses.map((thesis, index) => (
                 <InView key={index} className="h-full" delay={index * 0.06}>
-                  <ThesisCard thesis={thesis} />
+                  <ThesisCard
+                    thesis={thesis}
+                    layout={isSoloThesis ? 'wide' : 'card'}
+                  />
                 </InView>
               ))}
             </div>
