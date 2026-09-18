@@ -1,71 +1,51 @@
 import { DayData } from '@/lib/types'
+import Panel from './ui/Panel'
+import SectionHeader from './ui/SectionHeader'
+import Metric from './ui/Metric'
+import StatusPill from './ui/StatusPill'
+import { formatDeskDate, totalMaxLoss } from '@/lib/format'
 
 interface Props {
   data: DayData
 }
 
+const CELL =
+  'lg:border-l lg:border-desk-line lg:pl-5 lg:first:border-l-0 lg:first:pl-0'
+
 export default function DeskStatusStrip({ data }: Props) {
   const isFlat = data.desk_status === 'FLAT'
-  const statusClass = isFlat ? 'status-flat' : 'status-risk'
-  
+  const openTickets = data.ranked_book.length
+
   return (
-    <div className="panel p-3 sm:p-4">
-      {/* Mobile: stacked layout */}
-      <div className="flex flex-col gap-3 sm:hidden">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-dim text-xs">STATUS</span>
-            <span className={`${statusClass} font-bold text-sm px-2 py-0.5 border rounded`}>
-              {data.desk_status === 'FLAT' ? 'FLAT' : 'IN RISK'}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-dim text-xs">DATE</span>
-            <span className="font-mono text-white text-sm">{data.date}</span>
-          </div>
-        </div>
-        <div className="flex items-center justify-center gap-6 text-xs">
-          <div className="flex items-center gap-1">
-            <span className="text-dim">NAV</span>
-            <span className="font-mono text-white">{data.nav ?? '—'}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="text-dim">CASH</span>
-            <span className="font-mono text-white">{data.cash ?? '—'}</span>
-          </div>
-        </div>
+    <Panel as="section" spotlight>
+      <SectionHeader
+        index="01"
+        label="Desk status"
+        title={
+          isFlat
+            ? 'The desk is flat — no open tickets today'
+            : 'The desk is carrying risk today'
+        }
+        meta={<StatusPill status={data.desk_status} />}
+      />
+
+      <div className="grid grid-cols-2 gap-x-6 gap-y-5 px-4 py-5 sm:grid-cols-3 sm:px-6 lg:grid-cols-5">
+        <Metric label="Date" value={formatDeskDate(data.date)} className={CELL} />
+        <Metric label="NAV" value={data.nav ?? '—'} tone="dim" className={CELL} />
+        <Metric label="Cash" value={data.cash ?? '—'} tone="dim" className={CELL} />
+        <Metric
+          label="Open tickets"
+          value={openTickets}
+          tone={openTickets > 0 ? 'default' : 'dim'}
+          className={CELL}
+        />
+        <Metric
+          label="Max loss at risk"
+          value={totalMaxLoss(data.ranked_book)}
+          tone={openTickets > 0 ? 'short' : 'dim'}
+          className={CELL}
+        />
       </div>
-      
-      {/* Desktop: horizontal layout */}
-      <div className="hidden sm:flex sm:items-center sm:justify-between">
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-3">
-            <span className="text-dim text-sm">DESK STATUS</span>
-            <span className={`${statusClass} font-bold text-lg px-3 py-1 border rounded`}>
-              {data.desk_status === 'FLAT' ? 'FLAT' : 'IN RISK'}
-            </span>
-          </div>
-          
-          <div className="text-dim text-sm">|</div>
-          
-          <div className="flex items-center gap-2">
-            <span className="text-dim text-sm">DATE</span>
-            <span className="font-mono text-white">{data.date}</span>
-          </div>
-        </div>
-        
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            <span className="text-dim text-sm">NAV</span>
-            <span className="font-mono text-white">{data.nav ?? '—'}</span>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <span className="text-dim text-sm">CASH</span>
-            <span className="font-mono text-white">{data.cash ?? '—'}</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    </Panel>
   )
 }

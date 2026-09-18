@@ -1,111 +1,173 @@
 import { Thesis } from '@/lib/types'
+import Panel from './ui/Panel'
+import { cx } from '@/lib/cx'
 
 interface Props {
   thesis: Thesis
 }
 
+/**
+ * Content authors sometimes open a support statement with an explicit
+ * "What would make us wrong:" prefix. Splitting it out gives the invalidation
+ * reasoning its own line without changing a word of the copy.
+ */
+const WRONG_PREFIX = /^(what would make us wrong)\s*:\s*/i
+
+function splitStatement(statement: string) {
+  const match = statement.match(WRONG_PREFIX)
+
+  if (!match) {
+    return { label: null, body: statement }
+  }
+
+  return { label: match[1], body: statement.slice(match[0].length) }
+}
+
+function TicketTag({ thesis }: Props) {
+  const hasPosition = thesis.ranked_ticket !== 'NONE'
+
+  if (!hasPosition) {
+    return (
+      <span className="shrink-0 rounded-md border border-desk-line bg-desk-raised px-2 py-1 font-mono text-[11px] tracking-[0.12em] text-desk-muted uppercase">
+        No ticket
+      </span>
+    )
+  }
+
+  const isLong = thesis.levels.targets.length > 0
+
+  return (
+    <span
+      className={cx(
+        'shrink-0 rounded-md border px-2 py-1 font-mono text-[11px] font-semibold tracking-[0.08em]',
+        isLong
+          ? 'border-desk-long/35 bg-desk-long/8 text-desk-long'
+          : 'border-desk-short/35 bg-desk-short/8 text-desk-short'
+      )}
+    >
+      {thesis.ranked_ticket}
+    </span>
+  )
+}
+
 export default function ThesisCard({ thesis }: Props) {
   const hasPosition = thesis.ranked_ticket !== 'NONE'
-  const isLong = hasPosition && thesis.levels.targets.length > 0
   const isSampleOnly = thesis.sample_ui_only === true
-  
+
   return (
-    <div className={`panel p-3 sm:p-4 flex flex-col h-full ${isSampleOnly ? 'border-dashed border-[#333]' : ''}`}>
-      {/* Sample badge */}
-      {isSampleOnly && (
-        <div className="mb-2 -mt-1">
-          <span className="text-[9px] sm:text-[10px] uppercase tracking-wider px-1.5 sm:px-2 py-0.5 rounded bg-[#1a1a00] text-yellow-600 border border-yellow-900">
-            Sample UI Only — Not a Live Rank
+    <Panel
+      as="article"
+      spotlight
+      className={cx('h-full', isSampleOnly && 'border-dashed border-desk-line-strong')}
+    >
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
+        {isSampleOnly ? (
+          <span className="mb-3 self-start rounded-md border border-desk-draft/30 bg-desk-draft/8 px-2 py-1 font-mono text-[10px] tracking-[0.14em] text-desk-draft uppercase">
+            Sample UI only — not a live rank
           </span>
-        </div>
-      )}
-      
-      {/* Header */}
-      <div className="flex items-start justify-between gap-2 mb-3 pb-3 border-b border-[#222]">
-        <div className="flex-1">
-          <div className="text-dim text-xs uppercase tracking-wider mb-1">
-            {thesis.author}
+        ) : null}
+
+        <header className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <div className="eyebrow truncate">{thesis.author}</div>
+            <h3 className="text-balance mt-2 text-[15px] leading-snug font-semibold tracking-[-0.01em] text-white">
+              {thesis.title}
+            </h3>
           </div>
-          <h3 className="font-semibold text-white text-sm leading-tight">
-            {thesis.title}
-          </h3>
-        </div>
-        
-        {hasPosition ? (
-          <div className={`px-2 py-1 rounded text-xs font-mono ${
-            isLong ? 'bg-[#0a2a0a] text-green border border-[#00c853]' : 'bg-[#2a0a0a] text-red border border-[#ff1744]'
-          }`}>
-            {thesis.ranked_ticket}
-          </div>
-        ) : (
-          <div className="px-2 py-1 rounded text-xs font-mono bg-[#1a1a1a] text-muted border border-[#333]">
-            NONE
-          </div>
-        )}
-      </div>
-      
-      {/* Thesis */}
-      <div className="mb-3 sm:mb-4">
-        <p className="text-[13px] sm:text-sm text-[#c0c0c0] leading-relaxed">
+          <TicketTag thesis={thesis} />
+        </header>
+
+        <p className="mt-4 text-[13.5px] leading-[1.7] text-desk-dim sm:text-sm">
           {thesis.thesis}
         </p>
-      </div>
-      
-      {/* Support Statements */}
-      <div className="mb-4 flex-1">
-        <div className="text-dim text-[10px] sm:text-xs uppercase tracking-wider mb-2">
-          Support / Reasoning
-        </div>
-        <ul className="space-y-1.5 sm:space-y-2">
-          {thesis.support_statements.map((statement, idx) => (
-            <li key={idx} className="text-[11px] sm:text-xs text-[#a0a0a0] leading-relaxed pl-3 relative">
-              <span className="absolute left-0 text-dim">•</span>
-              <span>{statement}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      
-      {/* Levels */}
-      {hasPosition && (
-        <div className="border-t border-[#222] pt-3 mt-auto">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 text-xs">
-            <div>
-              <div className="text-dim uppercase tracking-wider mb-1 text-[10px] sm:text-xs">Entry</div>
-              <div className="font-mono text-white text-xs sm:text-sm">{thesis.levels.entry}</div>
-            </div>
-            <div>
-              <div className="text-dim uppercase tracking-wider mb-1 text-[10px] sm:text-xs">Invalidation</div>
-              <div className="font-mono text-red text-xs sm:text-sm">{thesis.levels.invalidation}</div>
-            </div>
-            <div className="col-span-2 sm:col-span-1">
-              <div className="text-dim uppercase tracking-wider mb-1 text-[10px] sm:text-xs">Max Loss</div>
-              <div className="font-mono text-red text-xs sm:text-sm">{thesis.max_loss}</div>
-            </div>
-          </div>
-          
-          {thesis.levels.targets.length > 0 && (
-            <div className="mt-3">
-              <div className="text-dim text-[10px] sm:text-xs uppercase tracking-wider mb-1">Targets</div>
-              <div className="flex flex-wrap gap-1 sm:gap-2">
-                {thesis.levels.targets.map((target, idx) => (
-                  <span key={idx} className="font-mono text-green text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 bg-[#0a1a0a] rounded border border-[#1a3a1a]">
-                    T{idx + 1}: {target}
+
+        <div className="mt-5 border-t border-desk-line pt-4">
+          <div className="eyebrow">Support / reasoning</div>
+          <ul className="mt-3 space-y-3">
+            {thesis.support_statements.map((statement, index) => {
+              const { label, body } = splitStatement(statement)
+
+              return (
+                <li key={index} className="flex gap-3">
+                  <span
+                    aria-hidden
+                    className={cx(
+                      'mt-[0.55rem] h-px w-2.5 shrink-0',
+                      label ? 'bg-desk-risk/70' : 'bg-desk-line-strong'
+                    )}
+                  />
+                  <span className="min-w-0 text-[13px] leading-[1.65]">
+                    {label ? (
+                      <span className="mr-1.5 font-mono text-[10px] tracking-[0.12em] text-desk-risk uppercase">
+                        {label}
+                      </span>
+                    ) : null}
+                    <span className="text-desk-dim">{body}</span>
                   </span>
-                ))}
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+
+        <div className="mt-auto pt-5">
+          {hasPosition ? (
+            <div className="rounded-lg border border-desk-line bg-desk-raised/50 p-3.5">
+              <dl className="grid grid-cols-2 gap-x-4 gap-y-3.5 sm:grid-cols-3">
+                <div>
+                  <dt className="eyebrow">Entry</dt>
+                  <dd className="tabular mt-1.5 font-mono text-sm text-desk-text">
+                    {thesis.levels.entry}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="eyebrow">Invalidation</dt>
+                  <dd className="tabular mt-1.5 font-mono text-sm text-desk-short">
+                    {thesis.levels.invalidation}
+                  </dd>
+                </div>
+                <div className="col-span-2 sm:col-span-1">
+                  <dt className="eyebrow">Max loss</dt>
+                  <dd className="tabular mt-1.5 font-mono text-sm text-desk-short">
+                    {thesis.max_loss}
+                  </dd>
+                </div>
+              </dl>
+
+              {thesis.levels.targets.length > 0 ? (
+                <div className="mt-4 border-t border-desk-line pt-3.5">
+                  <div className="eyebrow">Targets</div>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {thesis.levels.targets.map((target, index) => (
+                      <span
+                        key={index}
+                        className="tabular rounded-md border border-desk-long/25 bg-desk-long/8 px-2 py-1 font-mono text-[11px] text-desk-long"
+                      >
+                        T{index + 1} {target}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          ) : (
+            <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 rounded-lg border border-desk-line bg-desk-raised/50 p-3.5">
+              <div>
+                <div className="eyebrow">Max loss</div>
+                <div className="tabular mt-1.5 font-mono text-sm text-desk-dim">
+                  {thesis.max_loss}
+                </div>
+              </div>
+              <div className="min-w-0">
+                <div className="eyebrow">Invalidation</div>
+                <div className="mt-1.5 font-mono text-[13px] break-words text-desk-dim">
+                  {thesis.levels.invalidation}
+                </div>
               </div>
             </div>
           )}
         </div>
-      )}
-      
-      {!hasPosition && (
-        <div className="border-t border-[#222] pt-3 mt-auto">
-          <div className="text-xs text-muted">
-            <span className="font-mono">Max Loss:</span> {thesis.max_loss}
-          </div>
-        </div>
-      )}
-    </div>
+      </div>
+    </Panel>
   )
 }

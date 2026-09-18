@@ -9,28 +9,44 @@ interface Props {
 
 export default function DateSelector({ dates, currentDate }: Props) {
   const router = useRouter()
-  
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const date = e.target.value
+
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const date = event.target.value
     if (date === dates[0]) {
       router.push('/')
     } else {
       router.push(`/day/${date}/`)
     }
   }
-  
+
   return (
-    <div className="flex items-center gap-2">
-      <span className="text-dim text-[10px] sm:text-xs uppercase tracking-wider">View Date:</span>
-      <select 
+    <label className="group relative flex items-center">
+      <span className="sr-only">View desk date</span>
+      <select
         value={currentDate}
         onChange={handleChange}
-        className="bg-[#111] border border-[#333] rounded px-2 py-1 text-xs sm:text-sm font-mono text-white focus:outline-none focus:border-[#555] min-h-[36px]"
+        className="tabular min-h-9 appearance-none rounded-lg border border-desk-line bg-desk-surface py-1.5 pr-8 pl-3 font-mono text-xs text-desk-text transition-colors hover:border-desk-line-strong focus-visible:border-desk-flat sm:text-sm"
       >
-        {dates.map(date => (
-          <option key={date} value={date}>{date}</option>
+        {dates.map((date) => (
+          <option key={date} value={date}>
+            {date}
+          </option>
         ))}
       </select>
-    </div>
+      <svg
+        aria-hidden
+        viewBox="0 0 12 12"
+        className="pointer-events-none absolute right-3 size-2.5 text-desk-muted transition-colors group-hover:text-desk-dim"
+      >
+        <path
+          d="M2 4.5 6 8.5 10 4.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </label>
   )
 }

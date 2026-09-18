@@ -10,11 +10,15 @@ export default function Home() {
   
   if (!latest) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="panel p-8 text-center">
-          <h1 className="text-xl font-bold mb-4">No Data Available</h1>
-          <p className="text-dim">
-            Add a JSON file to /content/YYYY-MM-DD.json to get started.
+      <div className="flex min-h-screen items-center justify-center p-6">
+        <div className="panel max-w-sm p-6 text-center sm:p-8">
+          <div className="eyebrow">Quant Desk</div>
+          <h1 className="mt-3 text-lg font-semibold text-white">
+            No data available
+          </h1>
+          <p className="mt-2 text-[13px] leading-relaxed text-desk-dim">
+            Add a JSON file to <span className="font-mono">/content/YYYY-MM-DD.json</span>{' '}
+            to get started.
           </p>
         </div>
       </div>
