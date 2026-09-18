@@ -1,78 +1,230 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-:root {
-  --desk-bg: #0a0a0a;
-  --desk-panel: #111111;
-  --desk-border: #222222;
-  --desk-flat: #4a9eff;
-  --desk-risk: #ff6b6b;
-  --desk-green: #00c853;
-  --desk-red: #ff1744;
-  --desk-muted: #666666;
-  --desk-text: #e0e0e0;
-  --desk-text-dim: #888888;
+/* ---------------------------------------------------------------------------
+   Quant Desk design tokens.
+   Tailwind v4 reads the theme from CSS, so these tokens are the single source
+   of truth for colours, type and motion easing across the desk.
+   --------------------------------------------------------------------------- */
+@theme {
+  /* Surfaces — a cool, near-black stack so panels read as layers, not boxes. */
+  --color-desk-base: #08090b;
+  --color-desk-surface: #0c0e12;
+  --color-desk-raised: #11141a;
+  --color-desk-line: #1b1f27;
+  --color-desk-line-strong: #272d37;
+
+  /* Text ramp */
+  --color-desk-text: #e9ecf1;
+  --color-desk-dim: #98a1ad;
+  --color-desk-muted: #69727e;
+
+  /* Signal colours */
+  --color-desk-flat: #63a4ff;
+  --color-desk-risk: #ff9a66;
+  --color-desk-long: #3ad39b;
+  --color-desk-short: #ff5f7a;
+  --color-desk-draft: #d9b344;
+
+  --font-sans:
+    ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-mono:
+    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, Monaco,
+    monospace;
+
+  --radius-panel: 12px;
+
+  /* Motion — one shared curve keeps every reveal feeling like one product. */
+  --ease-desk: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-desk-shimmer: desk-shimmer 4.5s var(--ease-desk) infinite;
+  --animate-desk-pulse: desk-pulse 2.8s ease-in-out infinite;
+
+  @keyframes desk-shimmer {
+    0% {
+      background-position: 150% center;
+    }
+    60%,
+    100% {
+      background-position: -50% center;
+    }
+  }
+
+  @keyframes desk-pulse {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.45;
+      transform: scale(0.82);
+    }
+  }
 }
 
-* {
-  box-sizing: border-box;
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-desk-base);
+    color: var(--color-desk-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-desk-flat) 28%, transparent);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-desk-flat);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
 }
 
-html,
-body {
-  background: var(--desk-bg);
-  color: var(--desk-text);
-  font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  overflow-x: hidden;
+@layer components {
+  /* Panel: the one surface primitive. Hairline border plus a top highlight so
+     stacked panels separate without extra chrome. */
+  .panel {
+    position: relative;
+    background-color: var(--color-desk-surface);
+    border: 1px solid var(--color-desk-line);
+    border-radius: var(--radius-panel);
+  }
+
+  .panel::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 1px;
+    border-radius: var(--radius-panel) var(--radius-panel) 0 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, #fff 7%, transparent),
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  /* Eyebrow: the small uppercase mono label that opens every section. */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-desk-muted);
+  }
+
+  /* Faint diagonal hazard texture for the draft ribbon — present, not loud. */
+  .draft-texture {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      color-mix(in srgb, var(--color-desk-draft) 9%, transparent) 0 1px,
+      transparent 1px 9px
+    );
+  }
+
+  /* Shimmer sweep for headers. Kept in CSS (not JS) so the reduced-motion
+     override below lands on the very first paint. */
+  .desk-shimmer {
+    --shimmer-base: var(--color-desk-text);
+    --shimmer-peak: #ffffff;
+    background-image: linear-gradient(
+      100deg,
+      var(--shimmer-base) 40%,
+      var(--shimmer-peak) 50%,
+      var(--shimmer-base) 60%
+    );
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: var(--animate-desk-shimmer);
+  }
+
+  /* Ambient depth: one soft wash behind the desk, never a decorative pattern. */
+  .desk-ambient {
+    background-image:
+      radial-gradient(
+        60rem 28rem at 50% -8rem,
+        color-mix(in srgb, var(--color-desk-flat) 7%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        40rem 20rem at 100% 0%,
+        color-mix(in srgb, #ffffff 3%, transparent),
+        transparent 65%
+      );
+  }
 }
 
-.panel {
-  background: var(--desk-panel);
-  border: 1px solid var(--desk-border);
-  border-radius: 4px;
+@layer utilities {
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
 }
 
-.status-flat {
-  color: var(--desk-flat);
-  border-color: var(--desk-flat);
+/* ---------------------------------------------------------------------------
+   Reduced motion.
+
+   This is deliberately CSS-first rather than JS-first. The motion primitives
+   write their `initial` state as an inline style during server rendering, so a
+   hook-based check would only take effect after hydration — long enough for a
+   reduced-motion visitor to see the very reveal they asked us to skip. An
+   `!important` declaration outranks an inline style, so every revealed element
+   is fully visible and untransformed on the first paint instead.
+
+   `MotionConfig reducedMotion="user"` (see MotionProvider) is the second layer:
+   it stops Motion from running the transform animations at all.
+   --------------------------------------------------------------------------- */
+/* Reveals are scroll-triggered, so anything that never scrolls — printing, or a
+   full-page screenshot — has to see the finished state. */
+@media print {
+  [data-desk-reveal] {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
 }
 
-.status-risk {
-  color: var(--desk-risk);
-  border-color: var(--desk-risk);
-}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-.text-green {
-  color: var(--desk-green);
-}
+  [data-desk-reveal] {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
 
-.text-red {
-  color: var(--desk-red);
-}
+  .desk-shimmer {
+    background-image: none !important;
+    color: var(--color-desk-text) !important;
+    -webkit-text-fill-color: var(--color-desk-text) !important;
+    animation: none !important;
+  }
 
-.text-muted {
-  color: var(--desk-muted);
-}
-
-.text-dim {
-  color: var(--desk-text-dim);
-}
-
-.mono {
-  font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
-}
-
-.draft-banner {
-  background: repeating-linear-gradient(
-    45deg,
-    #1a1a00,
-    #1a1a00 10px,
-    #222200 10px,
-    #222200 20px
-  );
-  border-bottom: 2px solid #666600;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
