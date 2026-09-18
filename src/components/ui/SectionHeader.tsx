@@ -33,7 +33,7 @@ export default function SectionHeader({
     >
       <div className="min-w-0">
         <div className="eyebrow flex items-center gap-2">
-          <span className="text-desk-line-strong">{index}</span>
+          <span className="text-desk-muted/70">{index}</span>
           <span aria-hidden className="h-px w-4 bg-desk-line-strong" />
           <span>{label}</span>
         </div>

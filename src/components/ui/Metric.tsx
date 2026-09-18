@@ -30,7 +30,8 @@ export default function Metric({
       <div className="eyebrow">{label}</div>
       <div
         className={cx(
-          'tabular mt-1.5 truncate font-mono text-sm sm:text-[15px]',
+          // Wrapping beats an ellipsis here: a truncated number is a wrong number.
+          'tabular mt-1.5 font-mono text-sm break-words sm:text-[15px]',
           TONES[tone]
         )}
       >

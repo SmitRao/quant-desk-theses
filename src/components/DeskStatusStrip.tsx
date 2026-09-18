@@ -3,6 +3,7 @@ import Panel from './ui/Panel'
 import SectionHeader from './ui/SectionHeader'
 import Metric from './ui/Metric'
 import StatusPill from './ui/StatusPill'
+import { cx } from '@/lib/cx'
 import { formatDeskDate, totalMaxLoss } from '@/lib/format'
 
 interface Props {
@@ -30,7 +31,11 @@ export default function DeskStatusStrip({ data }: Props) {
       />
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-5 px-4 py-5 sm:grid-cols-3 sm:px-6 lg:grid-cols-5">
-        <Metric label="Date" value={formatDeskDate(data.date)} className={CELL} />
+        <Metric
+          label="Date"
+          value={formatDeskDate(data.date)}
+          className={cx('col-span-2 sm:col-span-1', CELL)}
+        />
         <Metric label="NAV" value={data.nav ?? '—'} tone="dim" className={CELL} />
         <Metric label="Cash" value={data.cash ?? '—'} tone="dim" className={CELL} />
         <Metric
