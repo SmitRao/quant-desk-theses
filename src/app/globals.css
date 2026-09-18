@@ -192,6 +192,16 @@
    `MotionConfig reducedMotion="user"` (see MotionProvider) is the second layer:
    it stops Motion from running the transform animations at all.
    --------------------------------------------------------------------------- */
+/* Reveals are scroll-triggered, so anything that never scrolls — printing, or a
+   full-page screenshot — has to see the finished state. */
+@media print {
+  [data-desk-reveal] {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

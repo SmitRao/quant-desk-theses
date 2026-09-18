@@ -30,6 +30,13 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
+        {/* Motion renders its `initial` state as an inline style, so without
+            JavaScript the revealed sections would never fade in. */}
+        <noscript>
+          <style>{
+            '[data-desk-reveal]{opacity:1!important;filter:none!important;transform:none!important}'
+          }</style>
+        </noscript>
       </head>
       <body className="antialiased">
         {/* One ambient wash behind the whole desk, fixed so it never scrolls. */}
